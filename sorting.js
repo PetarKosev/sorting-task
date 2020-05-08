@@ -74,7 +74,6 @@ function drawTable(){
 
     for (var i = 0; i < items.length; i++) {
 
-
         var tr = document.createElement('tr');
         var tdUser = document.createElement('td')
         var tdAge = document.createElement('td')
@@ -89,7 +88,7 @@ function drawTable(){
     }
 }
 
-var items = [
+var itemsInitial = [
     {
         user: 'pesho',
         age: 23,
@@ -109,8 +108,29 @@ var items = [
         user: 'penka',
         age: 30,
         gender: 'female'
+    },
+    {
+        user: 'ivan',
+        age: 24,
+        gender: 'male'
     }
 ];
+
+var items = itemsInitial;
+var filteredItems = [];
+
+var input = document.querySelector('input');
+var button = document.querySelector('button');
+button.addEventListener('click', function(event){
+    filteredItems = items.filter((n) => (n.user === input.value));
+    if (input.value === '') {
+        items = itemsInitial;
+    } else if (filteredItems != []) {
+        items = filteredItems;
+    }
+    table.innerHTML = '';
+    drawTable();
+})
 
 flagUserName = true;
 flagAge = true;

@@ -2,7 +2,7 @@
     display: flex;
     text-align: center;
     justify-content: center;
-    margin-top: 32px;
+    margin-top: 24px;
 }
 
 th {
@@ -15,4 +15,17 @@ td {
     width: 4rem;
     height: 3rem;
     font-size: 1.5rem;
+}
+
+.input {
+    display:flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+input {
+    height: 30px;
+    width: 160px;
+    font-size: 16px;
 }
