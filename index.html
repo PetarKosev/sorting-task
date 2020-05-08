@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="sorting.css">
 </head>
 <body>
-    <div class="input"><input type="text" name="filterText" placeholder="Enter text to filter">
-        <button class="button">Filter</button>
+    <div class="input"><input class="sortInput" type="text" name="filterText" placeholder="Enter text to filter">
+        <button class="sortButton">Filter</button>
     </div>
     <div class="table">
         <table border="1">
@@ -19,6 +19,17 @@
             </thead> -->
         </table>
     </div>  
+    <div class="addManual">
+        <form>
+            <label for="user" >User:</label>
+            <input class="user" type="text" required>
+            <label for="age">Age:</label>
+            <input class="age" type="number" required>
+            <label for="gender">Gender:</label>
+            <input class="gender" type="text" required>
+        </form>
+        <button class="addButton">Add</button>
+    </div>
     <script src="sorting.js"></script>
 </body>
 </html>

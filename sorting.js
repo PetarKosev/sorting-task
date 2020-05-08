@@ -90,27 +90,27 @@ function drawTable(){
 
 var itemsInitial = [
     {
-        user: 'pesho',
+        user: 'Pesho',
         age: 23,
         gender: 'male'
     },
     {
-        user: 'gosho',
+        user: 'Gosho',
         age: 56,
         gender: 'male'
     },
     {
-        user: 'ivan',
+        user: 'Ivan',
         age: 34,
         gender: 'male'
     },
     {
-        user: 'penka',
+        user: 'Penka',
         age: 30,
         gender: 'female'
     },
     {
-        user: 'ivan',
+        user: 'Ivan',
         age: 24,
         gender: 'male'
     }
@@ -119,11 +119,25 @@ var itemsInitial = [
 var items = itemsInitial;
 var filteredItems = [];
 
-var input = document.querySelector('input');
-var button = document.querySelector('button');
-button.addEventListener('click', function(event){
-    filteredItems = items.filter((n) => (n.user === input.value));
-    if (input.value === '') {
+var userInput = document.querySelector('.user');
+var ageInput = document.querySelector('.age');
+var genderInput = document.querySelector('.gender');
+
+var addButton = document.querySelector('.addButton');
+addButton.addEventListener('click', function(event){
+    if (userInput.value !== '' && ageInput.value !== '' && genderInput.value !== ''){
+        itemsInitial.push({user: userInput.value, age: ageInput.value, gender: genderInput.value})
+        items = itemsInitial;
+        table.innerHTML = '';
+        drawTable();
+    }
+})
+
+var sortInput = document.querySelector('.sortInput');
+var sortButton = document.querySelector('.sortButton');
+sortButton.addEventListener('click', function(event){
+    filteredItems = items.filter((n) => (n.user === sortInput.value));
+    if (sortInput.value === '') {
         items = itemsInitial;
     } else if (filteredItems != []) {
         items = filteredItems;
