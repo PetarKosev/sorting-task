@@ -130,6 +130,9 @@ addButton.addEventListener('click', function(event){
         items = itemsInitial;
         table.innerHTML = '';
         drawTable();
+        userInput.value = '';
+        ageInput.value = '';
+        genderInput.value = '';
     }
 })
 
