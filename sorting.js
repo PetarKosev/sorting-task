@@ -1,194 +1,213 @@
-function sortByName(a, b){
-    if(a.user < b.user){
-        return -1;
-    }else if(a.user > b.user){
-        return 1;
-    }else{
-        return 0;
-    }
-}
-
-function sortByNameDescending(a, b){
-    if(a.user < b.user){
-        return 1;
-    }else if(a.user > b.user){
-        return -1;
-    }else{
-        return 0;
-    }
-}
-
-function sortByAge(a, b){
-    if(a.age < b.age){
-        return -1;
-    }else if(a.age > b.age){
-        return 1;
-    }else{
-        return 0;
-    }
-}
-
-function sortByAgeDescending(a, b){
-    if(a.age < b.age){
-        return 1;
-    }else if(a.age > b.age){
-        return -1;
-    }else{
-        return 0;
-    }
-}
-
-function sortByGender(a, b){
-    if(a.gender < b.gender){
-        return -1;
-    }else if(a.gender > b.gender){
-        return 1;
-    }else{
-        return 0;
-    }
-}
-
-function sortByGenderDescending(a, b){
-    if(a.gender < b.gender){
-        return 1;
-    }else if(a.gender > b.gender){
-        return -1;
-    }else{
-        return 0;
-    }
-}
-
-function drawTable(){
-
-    var tableHeadUser = document.createElement('th');
-    tableHeadUser.textContent = 'User';
-    var tableHeadAge = document.createElement('th');
-    tableHeadAge.textContent = 'Age';
-    var tableHeadSex = document.createElement('th');
-    tableHeadSex.textContent = 'Gender';       
-    var tableHead = document.createElement('thead');
-    tableHead.appendChild(tableHeadUser);
-    tableHead.appendChild(tableHeadAge);
-    tableHead.appendChild(tableHeadSex);
-    table.appendChild(tableHead);
-
-    for (var i = 0; i < items.length; i++) {
-
-        var tr = document.createElement('tr');
-        var tdUser = document.createElement('td')
-        var tdAge = document.createElement('td')
-        var tdSex = document.createElement('td')
-        tdUser.textContent = (items[i].user);
-        tdAge.textContent = (items[i].age);
-        tdSex.textContent = (items[i].gender);
-        tr.appendChild(tdUser);
-        tr.appendChild(tdAge);
-        tr.appendChild(tdSex);
-        table.appendChild(tr);
-    }
-}
-
-var itemsInitial = [
+var items = [
     {
         user: 'Pesho',
         age: 23,
-        gender: 'male'
+        gender: 'male',
+        height: 173
     },
     {
         user: 'Gosho',
         age: 56,
-        gender: 'male'
+        gender: 'male',
+        height: 172
     },
     {
         user: 'Ivan',
         age: 34,
-        gender: 'male'
+        gender: 'male',
+        height: 178
     },
     {
         user: 'Penka',
         age: 30,
-        gender: 'female'
+        gender: 'female',
+        height: 177
     },
     {
         user: 'Ivan',
         age: 24,
-        gender: 'male'
+        gender: 'male',
+        height: 180
     }
 ];
 
-var items = itemsInitial;
-var filteredItems = [];
+function sortItemsBy(items, sortBy, isDescending) {
+    return items.sort(function(a, b) {
+        if (a[sortBy] < b[sortBy]) {
+            return isDescending ? 1 : -1;
+        }
+        
+        if (a[sortBy] > b[sortBy]) {
+            return isDescending ? -1 : 1;
+        }
+
+        return 0;
+    });
+}
+
+function drawHead(items) {
+    var firstItem = items[0];
+
+    var thead = document.createElement('thead');
+    
+    var tr = document.createElement('tr');
+
+    for (var key in firstItem) {
+        var th = document.createElement('th');
+
+        th.textContent = key;
+        th.setAttribute('data-sort-by', key);
+        th.setAttribute('data-sort-direction', 'asc');
+
+        tr.appendChild(th);
+    }
+
+    var th = document.createElement('th');
+    th.textContent = 'Action';
+    tr.appendChild(th);
+
+
+    thead.appendChild(tr);
+
+    table.appendChild(thead);
+}
+
+function drawBody(items) {
+    var tbody = document.createElement('tbody');
+
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+
+        var tr = document.createElement('tr');
+        tr.setAttribute('data-id', i);
+        for (var key in item) {
+            var td = document.createElement('td');
+
+            td.textContent = item[key];
+
+            tr.appendChild(td);
+        }
+        
+        var td = document.createElement('td');
+
+        var editButton = document.createElement('button');
+        var deleteButton = document.createElement('button');
+
+        editButton.textContent = 'Edit';
+        editButton.className = 'js-edit';
+
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'js-delete';
+
+        td.appendChild(editButton);
+        td.appendChild(deleteButton);
+        tr.appendChild(td);
+
+        tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
+}
+
+function drawTable(items) {
+    drawHead(items);
+    drawBody(items);
+}
 
 var userInput = document.querySelector('.user');
 var ageInput = document.querySelector('.age');
-var genderInput = document.querySelector('.gender');
-
+var genderInput = document.querySelector('.selectGender');
 var addButton = document.querySelector('.addButton');
+
 addButton.addEventListener('click', function(event){
     if (userInput.value !== '' && ageInput.value !== '' && genderInput.value !== ''){
-        itemsInitial.push({user: userInput.value, age: ageInput.value, gender: genderInput.value})
-        items = itemsInitial;
-        table.innerHTML = '';
-        drawTable();
-        userInput.value = '';
-        ageInput.value = '';
-        genderInput.value = '';
+        items.push({
+            user: userInput.value, 
+            age: ageInput.value, 
+            gender: genderInput.value,
+            height: 000
+        });
+
+        var tbody = table.querySelector('tbody');
+    
+        table.removeChild(tbody);
+
+        drawBody(items);
     }
 })
 
 var sortInput = document.querySelector('.sortInput');
 var sortButton = document.querySelector('.sortButton');
-sortButton.addEventListener('click', function(event){
-    filteredItems = items.filter((n) => (n.user === sortInput.value));
-    if (sortInput.value === '') {
-        items = itemsInitial;
-    } else if (filteredItems != []) {
-        items = filteredItems;
-    }
-    table.innerHTML = '';
-    drawTable();
-})
 
-flagUserName = true;
-flagAge = true;
-flagGender = true;
+sortInput.addEventListener('keyup', function(event) {
+    var filteredItems = items.filter(function(item) {
+        for (var key in item) {
+            if (String(item[key]).indexOf(event.target.value) > -1) {
+                return true;
+            }
+        }
+    });
+
+    var tbody = table.querySelector('tbody');
+
+    table.removeChild(tbody);
+
+    drawBody(filteredItems);
+});
 
 var table = document.querySelector('table');
 
-drawTable();
+drawTable(items);
 
 table.addEventListener('click', function(event) {
     var clickedElement = event.target;
 
-    if (clickedElement.tagName.toLowerCase() === 'th' && clickedElement.textContent === 'User' && flagUserName) {
-        items.sort(sortByName);
-        table.innerHTML = '';
-        drawTable();
-        flagUserName = false;
-    } else if (clickedElement.tagName.toLowerCase() === 'th' && clickedElement.textContent === 'User' && !flagUserName) {
-        items.sort(sortByNameDescending);
-        table.innerHTML = '';
-        drawTable();
-        flagUserName = true;
-    } else if (clickedElement.tagName.toLowerCase() === 'th' && clickedElement.textContent === 'Age' && flagAge) {
-        items.sort(sortByAge);
-        table.innerHTML = '';
-        drawTable(); 
-        flagAge = false;
-    } else if (clickedElement.tagName.toLowerCase() === 'th' && clickedElement.textContent === 'Age' && !flagAge) {
-        items.sort(sortByAgeDescending);
-        table.innerHTML = '';
-        drawTable();
-        flagAge = true;       
-    }else if (clickedElement.tagName.toLowerCase() === 'th' && clickedElement.textContent === 'Gender' && flagGender) {
-        items.sort(sortByGender);
-        table.innerHTML = '';
-        drawTable();
-        flagGender = false;
-    } else if (clickedElement.tagName.toLowerCase() === 'th' && clickedElement.textContent === 'Gender' && !flagGender) {
-        items.sort(sortByGenderDescending);
-        table.innerHTML = '';
-        drawTable();
-        flagGender = true;
+    if (clickedElement.tagName.toLowerCase() === 'th') {
+        var sortBy = clickedElement.getAttribute('data-sort-by');
+        var sortDirection = clickedElement.getAttribute('data-sort-direction');
+        var isDescending = sortDirection === 'desc';
+        var sortedItems = sortItemsBy(items, sortBy, isDescending);
+
+        clickedElement.setAttribute('data-sort-direction', !isDescending ? 'desc' : 'asc');
+
+        var tbody = table.querySelector('tbody');
+
+        table.removeChild(tbody);
+
+        drawBody(sortedItems);
+    } else if (clickedElement.className === 'js-edit') {
+        clickedElement.textContent = 'Save';
+        clickedElement.className = 'js-save';
+
+        var rowElements = clickedElement.parentNode.parentNode.children;
+
+        for (var td = 0; td < rowElements.length - 1; td++) {
+            var input = document.createElement('input');
+            input.value = rowElements[td].textContent;
+            rowElements[td].textContent = '';
+            rowElements[td].appendChild(input);
+        }
+    } else if (clickedElement.className === 'js-save') {
+        clickedElement.textContent = 'Edit';
+        clickedElement.className = 'js-edit';
+
+        var row = clickedElement.parentNode.parentNode;
+        var rowId = row.getAttribute('data-id');
+        var rowElements = row.children;
+
+        for (var td = 0; td < rowElements.length - 1; td++) {
+            var inputValue = rowElements[td].querySelector('input').value;
+
+            rowElements[td].innerHTML = inputValue;
+
+            items[rowId][Object.keys(items[rowId])[td]] = inputValue;
+        }
+    } else if (clickedElement.className === 'js-delete') {
+        var row = clickedElement.parentNode.parentNode;
+        var rowId = Number(row.getAttribute('data-id'));
+        
+        row.parentNode.removeChild(row);
+
+        items.splice(rowId, 1);
     }
-})
+});
