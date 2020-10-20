@@ -116,16 +116,17 @@ function drawTable(items) {
 
 var userInput = document.querySelector('.user');
 var ageInput = document.querySelector('.age');
+var heightInput = document.querySelector('.height');
 var genderInput = document.querySelector('.selectGender');
 var addButton = document.querySelector('.addButton');
 
 addButton.addEventListener('click', function(event){
-    if (userInput.value !== '' && ageInput.value !== '' && genderInput.value !== ''){
+    if (userInput.value !== '' && ageInput.value !== '' && heightInput.value !== '' && genderInput.value !== ''){
         items.push({
             user: userInput.value, 
             age: ageInput.value, 
             gender: genderInput.value,
-            height: 000
+            height: heightInput.value
         });
 
         var tbody = table.querySelector('tbody');
